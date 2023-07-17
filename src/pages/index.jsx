@@ -1,15 +1,26 @@
 import Head from "next/head";
 import { useEffect } from "react";
-
+import { createContext, useContext } from "react";
 import styles from "@/styles/Home.module.css";
+import Navbar from "@/components/Navbar";
+
+export const GeneralContext = createContext({
+  user: {
+    name: "Marina",
+    surname: "Valenza",
+    age: 31,
+  },
+});
 
 export default function Home() {
+  const context = useContext(GeneralContext);
+
   useEffect(() => {
     fetch("api/hello", {
       method: "GET",
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => data);
   }, []);
 
   return (
@@ -21,7 +32,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main}`}>
-        <h1>Hello Homepage</h1>
+        <div>Hello {context.user.name} </div>
+        <Navbar />
       </main>
     </>
   );
